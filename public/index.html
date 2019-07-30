@@ -55,5 +55,33 @@
     </div>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io("https://websocket.btcchina.com/");
+        socket.emit("subscribe", "marketdata_cnybtc");
+        socket.on('connect', function(){
+            socket.on('ticker', function(data){
+                console.log(data);
+
+                //update market name
+                $("#market").text(data.ticker.market)
+
+                //update high selling price
+                $("#high-count").text(data.ticker.high);
+
+                //update low selling price
+                $("#low-count").text(data.ticker.low);
+
+                // update buy price
+                $("#buy").text(data.ticker.buy)
+
+                // update sell price
+                $("#sell").text(data.ticker.sell)
+
+                // update volume
+                $("#volume").text(data.ticker.vol)
+
+            })
+        })
+    </script>
   </body>
 </html>
